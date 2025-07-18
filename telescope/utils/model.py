@@ -676,7 +676,7 @@ class TelescopeLikelihood(object):
         # Y[i] is the ambiguity indicator for fragment i, where Y[i]=1 if
         # fragment i is aligned to multiple transcripts and Y[i]=0 otherwise.
         # Store as N x 1 matrix
-        self.Y = (self.Q.count(1) > 1).astype(np.uint8)
+        self.Y = (self.Q.count(1) > 1).astype(int)
         self._yslice = self.Y[:,0].nonzero()[0]
 
         # Log-likelihood score
@@ -856,10 +856,10 @@ class TelescopeLikelihood(object):
             assignments = v.norm(1)
         elif method == 'unique':
             # Zero all rows that are ambiguous
-            assignments = _z.multiply(1 - self.Y).ceil().astype(np.uint8)
+            assignments = _z.multiply(1 - self.Y).ceil().astype(int)
         elif method == 'all':
             # Return all nonzero elements
-            assignments = _z.apply_func(lambda x: 1 if x > 0 else 0).astype(np.uint8)
+            assignments = _z.apply_func(lambda x: 1 if x > 0 else 0).astype(int)
 
         assignments = csr_matrix(assignments)
         return assignments

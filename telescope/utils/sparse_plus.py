@@ -53,13 +53,13 @@ class csr_matrix_plus(scipy.sparse.csr_matrix):
 
     def _norm_loop(self, axis=None):
         if axis is None:
-            ret = self.copy().astype(np.float)
+            ret = self.copy().astype(float)
             ret.data /= sum(ret)
             return ret
         elif axis == 0:
             raise NotImplementedError
         elif axis == 1:
-            ret = self.copy().astype(np.float)
+            ret = self.copy().astype(float)
             rowiter = zip(ret.indptr[:-1], ret.indptr[1:], ret.sum(1).A1)
             for d_start, d_end, d_sum in rowiter:
                 if d_sum != 0:
@@ -89,7 +89,7 @@ class csr_matrix_plus(scipy.sparse.csr_matrix):
     def _scale(self, axis=None):
         if axis is None:
             return type(self)(self.multiply(1. / self.max()))
-            # ret = self.copy().astype(np.float)
+            # ret = self.copy().astype(float)
             # return ret / ret.max()
         elif axis == 0:
             raise NotImplementedError
